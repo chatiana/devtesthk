@@ -63,14 +63,18 @@
               </div>
               <div class="form-row">
                 <div class="form-group col-md-6">
-                  <label for="inputCity">City</label>
-                  <input type="text" class="form-control" id="inputCity">
-                </div>
-                <div class="form-group col-md-4">
-                  <label for="inputState">State</label>
-                  <select id="inputState" class="form-control">
+                  <label for="inputCountry">Country</label>
+                  <select id="inputCountry" class="form-control">
                     <option selected>Choose...</option>
-                    <option>...</option>
+                    <% for (let i=0;i < oldInput.countries.length;i++) { %>
+                      <option value="<%= oldInput.countries[i] %>"><%= oldInput.countries[i] %></option>
+                  <% } %>
+                  </select>
+                </div>
+                <div class="form-group col-md-6">
+                  <label for="inputCity">City</label>
+                  <select id="inputCity" class="form-control">
+                    <option selected>Choose...</option>
                   </select>
                 </div>
                 <div class="form-group col-md-2">
@@ -82,4 +86,17 @@
             <button class="btn btn-primary" type="submit">Edit</button>
         </form>
     </main>
+    <script>
+      var countrySelect = document.getElementById('inputCountry');
+      var citySelect = document.getElementById('inputCity');
+
+      countrySelect.addEventListener('change', setCities);
+
+
+      function setCities() {
+
+        var cities = JSON.parse('<%-JSON.stringify(oldInput.cities)%>');
+        citySelect.innerHTML = cities[countrySelect.value].map(city => `<option value=${city}>${city}</option>`).join('');
+      }
+    </script>
 <%- include('../includes/end.ejs') %>
