@@ -75,20 +75,27 @@ app.use(flash());
 
 app.use((req, res, next) => { //to pass these data to all of the rendered views
   res.locals.isAuthenticated = req.session.isLoggedIn;
+  if(req.session.user) {
+    res.locals.role = req.session.user.roles;
+  }
+  if(req.session.total) {
+    res.locals.total = req.session.total;
+    res.locals.items = req.session.items;
+  }
   res.locals.csrfToken = req.csrfToken();
   next();
 });
 
 
 //find user with Id
-app.use((req, res, next) => {  
+app.use((req, res, next) => {
    // throw new Error('Dummy');
   if (!req.session.user) {
     return next();
   }
   User.findById(req.session.user._id) //findById provided by mangoose
     .then(user => {  //user is a mongoose model
-      if(!user) {  //check for existance of user 
+      if(!user) {  //check for existance of user
         return next(); //will rturn next w/o storing
       }
       req.user = user; //storing mongoose model from session into req.user enables all mongoose model method to work
@@ -103,7 +110,7 @@ app.use((req, res, next) => {
 
 
 //middleware
-app.use('/admin', adminRoutes); 
+app.use('/admin', adminRoutes);
 app.use(shopRoutes);
 app.use(authRoutes);
 
@@ -121,7 +128,7 @@ app.use((error, req, res, next) => {
     path: '/error500',
     isAuthenticated: req.session.isLoggedIn
   });
-}); 
+});
 
 mongoose
   .connect(MONGODB_URI, { useNewUrlParser: true,  useUnifiedTopology: true })
