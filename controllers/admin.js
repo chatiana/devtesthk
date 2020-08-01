@@ -3,6 +3,8 @@ const fileHelper = require('../util/file');
 const { validationResult } = require('express-validator/check')
 
 const Product = require('../models/product');
+const User = require('../models/user');
+const getTimeStamp = require('../util/getTimeStamp');
 
 // ============================================
 //  Get Admin Dash
@@ -248,15 +250,23 @@ exports.deleteProduct = (req, res, next) => {
       const error = new Error(err);
       error.httpStatusCode = 500;
       return next(error);
-      }); 
+      });
 };*/
 // ============================================
 //  Get Admin Users
 // ============================================
 exports.getUsers= (req, res, next) => {
-      console.log(req.session.isLoggedIn);
-      res.render('admin/users', {
-        pageTitle: 'Admin Users',
-        path: '/admin/users',
-      });
+  User.find().then(users => {
+    users = users.map(user => {
+      return {
+        ...user._doc,
+        date: getTimeStamp(user._id.toString())
+      }
+    })
+    res.render('admin/users', {
+      pageTitle: 'Admin Users',
+      path: '/admin/users',
+      users
+    });
+  })
 };

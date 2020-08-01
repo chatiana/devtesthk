@@ -133,8 +133,30 @@ exports.postCartDeleteProduct = (req, res, next) => {
 	const prodId = req.body.productId;
 	req.user
 		.removeFromCart(prodId)
-		.then((result) => {
-			res.redirect('/cart');
+		.then(() => {
+			User.findOne({ _id: req.session.user._id })
+				.populate({
+					path: 'cart',
+					populate: {
+						path: 'items',
+						populate: {
+							path: 'productId',
+						},
+					},
+				})
+				.then((user) => {
+					const total = user.cart.items.reduce((accumulator, currentValue) => {
+						const {
+							quantity,
+							productId: { price },
+						} = currentValue;
+
+						return accumulator + quantity * price;
+					}, 0);
+					req.session.total = total;
+					req.session.items = user.cart.items.length;
+					res.redirect('/cart');
+				});
 		})
 		.catch((err) => {
 			const error = new Error(err);
@@ -179,7 +201,7 @@ exports.postOrder = (req, res, next) => {
 //  Get Orders per user
 // ============================================
 exports.getOrders = (req, res, next) => {
-	Order.find({ 'user.userId': req.user._id })
+	Order.find({ 'user.userId': req.session.user._id })
 		.then((orders) => {
 			const total = orders.reduce((accumulator, currentValue) => {
 				const totalOrder = currentValue.products.forEach(

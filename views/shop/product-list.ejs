@@ -24,7 +24,7 @@
 			<button class="btn" onclick="filterSelection('accessories')">
 				Accessories
 			</button>
-			<button class="btn" onclick="filterSelection('gift')">Gifts</button>
+			<button class="btn" onclick="filterSelection('gifts')">Gifts</button>
 		</div>
 
 		<div class="grid">
@@ -59,7 +59,7 @@
 		<% } %>
 	</main>
 <script>
-  const types = ['planthanger','macrame','accessories', 'gift']
+  const types = ['planthanger','macrame','accessories', 'gifts']
   function getElements(types, display) {
     const classeNames = types.reduce((accumulator, currentValue) => {
       const elems = document.getElementsByClassName(currentValue);
