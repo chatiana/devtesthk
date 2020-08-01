@@ -24,10 +24,12 @@
     "nodemailer-sendgrid-transport": "^0.2.0",
     "pug": "^3.0.0"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "nodemon": "^2.0.4"
+  },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node app.js",
+    "start": "nodemon -e coffee,js,ejs app.js",
     "start-server": "node app.js"
   },
   "repository": {

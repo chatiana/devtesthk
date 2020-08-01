@@ -10,59 +10,48 @@
         <div class="allheader">
             <h1>Edit Details</h1>
         </div>
-        
+
 
         <% if (errorMessage) { %>
             <div class= "user-message user-message--error">
                 <%= errorMessage %>
             </div>
         <% } %>
-        
-        <form class="login-form" action="/register" method="POST" novalidate>    
+
+        <form class="login-form" action="/auth/user-edit" method="POST" novalidate>
             <div class="form-group ">
                 <label for="email">E-Mail</label>
-                <input 
+                <input
                 class="form-control <%= validationErrors.find(e => e.param === 'email' ) ? 'invalid' : ' ' %>"
-                type="email" 
-                name="email" 
-                id="email" 
+                type="email"
+                name="email"
+                id="email"
                 value="<%= oldInput.email %>">
-            </div>
-           
-            <div class="form-group">
-                <label for="password">Password</label>
-                <input 
-                class="form-control <%= validationErrors.find(e => e.param === 'password' ) ? 'invalid' : ' ' %>"
-                type="password" 
-                name="password" 
-                id="password" 
-                value="<%= oldInput.password %>">
             </div>
 
             <div class="form-group">
-                <label for="confirmPassword">Confirm Password</label>
-                <input 
-                class="form-control <%= validationErrors.find(e => e.param === 'confirmPassword' ) ? 'invalid' : ' ' %>"
-                type="password" 
-                name="confirmPassword" 
-                id="confirmPassword" 
-                value="<%= oldInput.confirmPassword %>">
+                <label for="password">Password</label>
+                <input
+                class="form-control <%= validationErrors.find(e => e.param === 'password' ) ? 'invalid' : ' ' %>"
+                type="password"
+                name="password"
+                id="password">
             </div>
             <div class="form-group">
                 <label for="name">Name</label>
-                <input 
+                <input
                 class="form-control <%= validationErrors.find(e => e.param === 'name' ) ? 'invalid' : ' ' %>"
                 type="text" name="name" id="name"
                 value="<%= oldInput.name %>">
             </div>
             <div class="form-group">
                 <label for="lname">Last Name</label>
-                <input 
+                <input
                 class="form-control <%= validationErrors.find(e => e.param === 'lname' ) ? 'invalid' : ' ' %>"
                 type="text" name="lname" id="lname"
                 value="<%= oldInput.lname %>">
             </div>
-        
+
             <h2>Billing Address Details</h2>
             <div class="form-group">
                 <label for="inputAddress">Address</label>
@@ -90,7 +79,7 @@
                 </div>
               </div>
             <input type="hidden" name="_csrf" value="<%= csrfToken %>">
-            <button class="btn btn-primary" type="submit">Register</button>
+            <button class="btn btn-primary" type="submit">Edit</button>
         </form>
     </main>
 <%- include('../includes/end.ejs') %>

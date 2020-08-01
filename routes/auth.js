@@ -67,6 +67,9 @@ router.post(
     authController.postRegister
 );
 
+router.get('/auth/user-edit', authController.getUserEdit);
+router.post('/auth/user-edit', authController.postUserEdit);
+
 router.post('/logout', authController.postLogout);
 router.post('/reset', authController.postReset);
 router.post('/new-password', authController.postNewPassword);
