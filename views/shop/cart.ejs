@@ -36,13 +36,7 @@
                             </th>
                         </tr>
            <% }) %>
-                    <tr>
-                        <td>   </td>
-                        <td>   </td>
-                        <td><h5>Subtotal</h5></td>
-                        <td><h5><strong>$24.59</strong></h5></td>
-                        <td>   </td>
-                    </tr>
+
                     <tr>
                         <td>   </td>
                         <td>   </td>
@@ -54,30 +48,27 @@
                         <td>   </td>
                         <td>   </td>
                         <td><h3>Total</h3></td>
-                        <td><h3><strong>$31.53</strong></h3></td>
+                        <td><h3><strong><% if(locals.total) { %><%= locals.total.toFixed(2) %><%}else{%>0.00<%}%></strong></h3></td>
                         <td>   </td>
                     </tr>
                     <tr></tr>
                     <tr>
                         <td>   </td>
                         <td>   </td>
-                        <td><button type="button" class="btn btn-primary">
-                                <span class="glyphicon glyphicon-shopping-cart"></span> Continue Shopping
-                            </button>
+                        <td>   </td>
+                        <td> <a class="btn btn-primary" href="/checkout">Checkout</a>
+                            <a href="/product-list" type="button" class="btn btn-primary">Back to Products</a>
                         </td>
-                        <td><button type="button" class="btn btn-primary">
-                                Checkout <span class="glyphicon glyphicon-play"></span>
-                            </button>
-                        </td>
+                      
                     </tr>
             </tbody>
                 </table>
             <div class="centered">
-             <form action="/create-order" method="POST">
+                <a class="btn btn-primary" href="/checkout">ORDER NOW</a>
+             <!-- <form action="/create-order" method="POST">
                     <input type="hidden" name="_csrf" value="<%= csrfToken %>">
                     <button type="submit" class="btn btn-primary">Order Now!</button>
-                    <a href="/product-list" type="button" class="btn btn-primary">Keep Shopping</a>
-                </form>
+                </form> -->
             </div>
             <% } else { %>
                 <h1>No Products in Cart!</h1>

@@ -9,39 +9,38 @@
             <div class="allheader">
                 <h1>Check Out</h1>
               </div>
-
-            <div class="cart__item-list">
-                <ul>
+              <ul class="cart__item-list">
                 <% products.forEach(p => { %>
                     <li class="cart__item">
-                        <h2>Product: <%= p.productId.title %></h2>
-                        <h2><%= p.quantity %> </h2>
-                        <h2>x</h2>
-                        <h3> $ <%= p.productId.price %></h3> 
-                        <h3> $ <%= p.totalPay %></h3> 
+                        <h1><%= p.productId.title %></h1>
+                        <h2>Quantity: <%= p.quantity %></h2>
                     </li>
-                    
                 <% }) %>
-                </ul>
+            </ul>
+            <div class="centered">
                 <div class="cart_pay">
                     <div class="cart__item_pay">
                         <h1>Total Pay:  </h1>
                         <h1>  $ <%= totalSum %></h1>
                     </div>
                 </div>
-                <div class="centered">
-                    <button id="order-btn" class="btn"> ORDER</button>
-                    <script src="https://js.stripe.com/v3/"></script>
-                    <script>
-                        var stripe = Stripe('pk_test_51GvkFqEqmQbKDFicw43EHLrEqwzdSwQ5ogcu6xpbqi8m1kw7ry785PF6N76GvdiDQ10URgglcjZ3bLqJweRhb22P00OLzZp9Gf');
-                        var orderBtn = document.getElementById('order-btn')
-                        orderBtn.addEventListener('click', function() {
-                            stripe.redirectToCheckout({
-                                sessionId: '<%= sessionId %>'
-                            });
-                        });
-                    </script>
-                </div>
             </div>
+
+            <div class="centered">
+                <button id="order-btn" class="btn btn-primary">Proceed to payment</button>
+                <script src="https://js.stripe.com/v3/"></script>
+                <script>
+                    var stripe = Stripe('ppk_test_51HBOdPKXLgEE35XHCs2HGiEm4VGaIW750zumvZQt1o8G2Ymh7YhR1VihhvaQhNOOs1smQvu0GQbUkw9KSjL62aJQ00Nz9bgeuJ');
+                    var orderBtn = document.getElementById('order-btn');
+                    orderBtn.addEventListener('click', function() {
+                        //redirect user to stripe page to enter details.
+                        stripe.redirectToCheckout({
+                            sessionId: '<%= sessionId %>'
+                        });
+                    });
+                </script>
+            </div>
+       
+           
         </main>
     <%- include('../includes/end.ejs') %>

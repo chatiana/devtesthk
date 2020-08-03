@@ -4,6 +4,12 @@ const getTimeStamp = require('../util/getTimeStamp');
 const { getUsers } = require('./admin');
 const User = require('../models/user');
 
+const fs = require('fs');
+const path = require('path');
+
+const { STRIPE_KEY } = require('../config/config');
+const stripe = require('stripe')(STRIPE_KEY)
+
 // ============================================
 //  Get HomePage
 // ============================================
@@ -75,8 +81,7 @@ exports.getCart = (req, res, next) => {
 				path: '/cart',
 				pageTitle: 'Your Cart',
 				products: products,
-				//  totalXProduct: products.price * user.cart.quantity,
-				// totalSum: pay,
+			
 			});
 		})
 		.catch((err) => {
@@ -231,7 +236,9 @@ exports.getOrders = (req, res, next) => {
 			return next(error);
 		});
 };
-
+// ============================================
+//  Get ALL Orders
+// ============================================
 exports.getAllOrders = (req, res, next) => {
 	Order.find()
 		.then((orders) => {
@@ -302,85 +309,92 @@ exports.getTutorial = (req, res, next) => {
 	});
 };
 
-/* // ============================================
+// ============================================
 //  Get Checkout
 // ============================================
 exports.getCheckout = (req, res, next) => {
 	let products;
-	let pay = 0;
+	let total = 0;
 	req.user
-		.populate('cart.items.productId')
-		.execPopulate()
-		.then((user) => {
-			products = user.cart.items;
-			pay = user.cart.pay;
-			return stripe.checkout.sessions.create({
-				payment_method_types: ['card'],
-				line_items: products.map((p) => {
-					return {
-						name: p.productId.title,
-						description: p.productId.description,
-						amount: p.productId.price * 100,
-						currency: 'usd',
-						quantity: p.quantity,
-					};
-				}),
-				success_url:
-					req.protocol + '://' + req.get('host') + '/checkout/success', // => http://localhost:3000
-				cancel_url: req.protocol + '://' + req.get('host') + '/checkout/cancel',
-			});
-		})
-		.then((session) => {
-			res.render('shop/checkout', {
-				path: '/checkout',
-				pageTitle: 'Your Checkout',
-				products: products,
-				totalSum: pay,
-				sessionId: session.id,
-			});
-		})
-		.catch((err) => {
-			const error = new Error(err);
-			error.httpStatusCode = 500;
-			return next(error);
+	  .populate('cart.items.productId')
+	  .execPopulate()
+	  .then(user => {
+		products = user.cart.items;
+		total = 0;
+		products.forEach(p => {
+		  total += p.quantity * p.productId.price;
 		});
-};
-
-exports.getCheckoutSuccess = (req, res, next) => {
-	req.user
-		.populate('cart.items.productId')
-		.execPopulate()
-		.then((user) => {
-			const products = user.cart.items.map((i) => {
-				return {
-					quantity: i.quantity,
-					product: { ...i.productId._doc },
-					totalPay: i.totalPay,
-				};
-			});
-			const order = new OrderModel({
-				user: {
-					email: req.user.email,
-					userId: req.user,
-				},
-				products: products,
-				totalOrder: req.user.cart.pay,
-			});
-			return order.save();
-		})
-		.then((result) => {
-			return req.user.clearCart();
-		})
-		.then(() => {
-			res.redirect('/orders');
-		})
-		.catch((err) => {
-			const error = new Error(err);
-			error.httpStatusCode = 500;
-			return next(error);
+  
+		return stripe.checkout.sessions.create({
+		  payment_method_types: ['card'],
+		  line_items: products.map(p => {
+			return {
+			  name: p.productId.title,
+			  description: p.productId.description,
+			  amount: p.productId.price * 100,
+			  currency: 'eur',
+			  quantity: p.quantity
+			};
+		  }),
+		  //stripe will use below urls to redierct user after actions are completed from their end.
+		  success_url: req.protocol + '://' + req.get('host') + '/checkout/success', // => http://localhost:3000
+		  cancel_url: req.protocol + '://' + req.get('host') + '/checkout/cancel'
 		});
-}; */
-
-// ============================================
-//  Get Invoice per order
-// ============================================
+	  })
+	  .then(session => {
+		res.render('shop/checkout', {
+		  path: '/checkout',
+		  pageTitle: 'Checkout',
+		  products: products,
+		  totalSum: total,
+		  sessionId: session.id
+		});
+	  })
+	  .catch(err => {
+		const error = new Error(err);
+		error.httpStatusCode = 500;
+		return next(error);
+	  });
+  };
+  
+  // ============================================
+  //  Get Checkout
+  // ============================================
+  exports.getCheckoutSuccess = (req, res, next) => {
+	  req.user
+		  .populate('cart.items.productId')
+		  .execPopulate()
+		  .then((user) => {
+			  const products = user.cart.items.map((i) => {
+				  return {
+					  quantity: i.quantity,
+					  product: { ...i.productId._doc },
+					  totalPay: i.totalPay,
+				  };
+			  });
+			  const order = new OrderModel({
+				  user: {
+					  email: req.user.email,
+					  userId: req.user,
+				  },
+				  products: products,
+				  totalOrder: req.user.cart.pay,
+			  });
+			  return order.save();
+		  })
+		  .then((result) => {
+			  return req.user.clearCart();
+		  })
+		  .then(() => {
+			  res.redirect('/orders');
+		  })
+		  .catch((err) => {
+			  const error = new Error(err);
+			  error.httpStatusCode = 500;
+			  return next(error);
+		  });
+  };
+  
+  
+  
+  
