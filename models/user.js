@@ -24,22 +24,18 @@ const userSchema = new Schema({
 	},
 	resetToken: String,
 	resetTokenExpiration: Date,
-	roles: {
+	roles: { //handle admin
 		type: String,
 		enum: ['user', 'admin'],
 		required: true,
 		default: 'user',
 	},
 
-	/*rconfirmPassword: {
+confirmPassword: {
     type: String,
-    equired: true
+    required: true
   },
 
-  phone: {
-    type: Number,
-    /*required: true
-  },*/
 	cart: {
 		items: [
 			{
@@ -107,7 +103,7 @@ userSchema.methods.removeFromCart = function (productId) {
 		return item.productId.toString() !== productId.toString(); //True to keep Falso to remove it
 	});
 	updatedCartItems.forEach((product) => {
-		//	pay = Number(pay) + Number(product.totalPay);
+		
 	});
 	this.cart.items = updatedCartItems;
 	return this.save();

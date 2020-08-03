@@ -26,7 +26,7 @@
                             <th><%= p.productId.title %> </th>
                             <th> <p><%= p.quantity %></p></th>
                             <th><p><%= p.productId.price %></p></th>
-                            <th>56Eur</th>
+                            <th><%= p.quantity * p.productId.price %></th>
                             <th>
                                 <form action="/cart-delete-item" method="POST">
                                     <input type="hidden" value="<%= p.productId._id %>" name="productId">
@@ -76,6 +76,7 @@
              <form action="/create-order" method="POST">
                     <input type="hidden" name="_csrf" value="<%= csrfToken %>">
                     <button type="submit" class="btn btn-primary">Order Now!</button>
+                    <a href="/product-list" type="button" class="btn btn-primary">Keep Shopping</a>
                 </form>
             </div>
             <% } else { %>

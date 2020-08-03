@@ -9,12 +9,14 @@
 		<ul class="user-menu">
 			<% if (!isAuthenticated) { %>
 			<li>
+			
 				<a class="<%= path === '/login' ? 'active' : '' %>" href="/login"
 					><i class="fas fa-user"></i> Login</a
 				>
 			</li>
 			<% } else { %>
-			<li>
+			<li>	
+				<%= locals.name %>
 				<a href="/userdash"><i class="fas fa-user"></i></a>
 			</li>
 			<li>
@@ -31,7 +33,7 @@
 			</li>
 		</ul>
 		<ul class="admin-menu">
-			<% if(locals.role && locals.role === 'admin') {%>
+			<% if(locals.role && locals.role === 'admin') {%> <!--check if admin or not no undefined  then value-->
 			<li><a class="adminicon" href="/admin/admindash">Admin</a></li>
 			<% } %>
 		</ul>
@@ -68,21 +70,6 @@
 					>Contact</a
 				>
 			</li>
-
-			<!--
-            <% if (isAuthenticated) { %>
-
-            <li class="main-header__item">
-                <a class="<%= path === '/orders' ? 'active' : '' %>" href="/orders">Orders</a>
-            </li>
-            <li class="main-header__item">
-                <a class="<%= path === '/admin/add-product' ? 'active' : '' %>" href="/admin/add-product">Add
-                    Product</a>
-            </li>
-            <li class="main-header__item">
-                <a class="<%= path === '/admin/products' ? 'active' : '' %>" href="/admin/products">Admin Products</a>
-            </li>
-            <% } %> -->
 		</ul>
 	</nav>
 </header>

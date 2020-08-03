@@ -238,20 +238,7 @@ exports.deleteProduct = (req, res, next) => {
       res.status(500).json({ message: 'Deleting product failed.' });
     });
 };
-/* exports.postDeleteProduct = (req, res, next) => {
-  const prodId = req.body.productId;
-  //delete the prod where id is equal to prd id but ALSO user id is equal to _id
-  Product.deleteOne({ _id: prodId, userId: req.user._id})
-    .then(() => {
-      console.log('DESTROYED PRODUCT');
-      res.redirect('/admin/products');
-    })
-    .catch(err => {
-      const error = new Error(err);
-      error.httpStatusCode = 500;
-      return next(error);
-      });
-};*/
+
 // ============================================
 //  Get Admin Users
 // ============================================

@@ -65,6 +65,7 @@ exports.getProduct = (req, res, next) => {
 //  Get Cart
 // ============================================
 exports.getCart = (req, res, next) => {
+	
 	req.user
 		.populate('cart.items.productId')
 		.execPopulate()

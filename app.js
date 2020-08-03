@@ -77,6 +77,7 @@ app.use((req, res, next) => { //to pass these data to all of the rendered views
   res.locals.isAuthenticated = req.session.isLoggedIn;
   if(req.session.user) {
     res.locals.role = req.session.user.roles;
+    res.locals.name = req.session.user.name;
   }
   if(req.session.total) {
     res.locals.total = req.session.total;
@@ -133,7 +134,7 @@ app.use((error, req, res, next) => {
 mongoose
   .connect(MONGODB_URI, { useNewUrlParser: true,  useUnifiedTopology: true })
   .then(result => {
-    app.listen(3000);
-    console.log('http://localhost:3000');
+    app.listen(4300);
+    console.log('http://localhost:4300');
   })
   .catch( err =>  console.log ("error"));

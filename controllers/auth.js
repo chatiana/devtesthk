@@ -181,6 +181,7 @@ exports.postRegister = (req, res, next) => {
 	const password = req.body.password;
 	const name = req.body.name;
 	const lname = req.body.lname;
+	//add here fields
 	//email validator
 	const errors = validationResult(req);
 	if (!errors.isEmpty()) {
@@ -195,7 +196,8 @@ exports.postRegister = (req, res, next) => {
 				password: password,
 				confirmPassword: req.body.confirmPassword,
 				name: name,
-				lname: lname,
+				lname: lname
+				//add fields
 			},
 			validationErrors: errors.array(),
 		});
@@ -230,11 +232,11 @@ exports.postRegister = (req, res, next) => {
 		});
 };
 // ============================================
-//  POST Register
+//  POST User Edit Details
 // ============================================
 exports.postUserEdit = (req, res, next) => {
 	const {
-		body: { email, password, name, lname },
+		body: { email, password, name, lname }, //add fields
 	} = req;
 	//email validator
 	const errors = validationResult(req);
@@ -250,6 +252,7 @@ exports.postUserEdit = (req, res, next) => {
 				password: password,
 				name: name,
 				lname: lname,
+				
 			},
 			validationErrors: errors.array(),
 		});
@@ -266,6 +269,7 @@ exports.postUserEdit = (req, res, next) => {
 						password: hashedPassword,
 						name: name,
 						lname: lname,
+						//add fields details here
 					}
 				);
 			})
@@ -284,6 +288,7 @@ exports.postUserEdit = (req, res, next) => {
 				email: email,
 				name: name,
 				lname: lname,
+				//add fields here
 			}
 		)
 			.then(() => {
