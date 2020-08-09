@@ -74,7 +74,7 @@ exports.postAddProduct = (req, res, next) => {
       validationErrors: errors.array()
     });
   }
-  //files are not stored in the DB, but in a fole system
+  //files are not stored in the DB, but in a file system
   const imageUrl = image.path; //will store the path of the image
 
   const product = new Product({
@@ -94,21 +94,6 @@ exports.postAddProduct = (req, res, next) => {
       res.redirect('/admin/products');
     })
     .catch(err => {
-      // return res.status(500).render('admin/edit-product', {
-      //   pageTitle: 'Add Product',
-      //   path: '/admin/add-product',
-      //   editing: false,
-      //   hasError: true,
-      //   product: {
-      //     title: title,
-      //     imageUrl: imageUrl,
-      //     price: price,
-      //     description: description
-      //   },
-      //   errorMessage: 'Database operation failed, please try again.',
-      //   validationErrors: []
-      // });
-      // res.redirect('/error500');
       const error = new Error(err);
       error.httpStatusCode = 500;
       return next(error);

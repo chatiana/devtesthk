@@ -3,8 +3,9 @@ const path = require('path');
 const express = require('express');
 
 const  shopController = require('../controllers/shop');
+
 //middleware to protect routes
-const isAuth = require('../middleware/is-auth');
+const isAuth = require('../middleware/is-auth');  
 const isAdmin = require('../middleware/isAdmin');
 
 const router = express.Router();
@@ -26,7 +27,7 @@ router.get('/orders', isAuth, shopController.getOrders);
 router.get('/orders/admin', isAuth, isAdmin, shopController.getAllOrders);
 
 router.get('/checkout', isAuth, shopController.getCheckout);
-router.get('/checkout/success', shopController.getCheckoutSuccess);
+router.get('/checkout/success', shopController.postOrder); //or getCheckoutSuccess //postOrder
 router.get('/checkout/cancel', shopController.getCheckout);
 
 

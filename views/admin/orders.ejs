@@ -7,52 +7,15 @@
 
             <main>
                 <div class="allheader text-center">
-                    <h1>ALL Users Orders </h1>
+                    <h1>Orders Placed</h1>
                   </div>
 
-                  <% if (prods.length <= 0) { %>
-                    <h1>Nothing there!</h1>
+                <% if (prods.length > 0) { %>
+
+                 <% } %>
+                  
                     <% } else { %>
-                    <h1>No Orders Found!</h1>
-                    <% } %>
-
-
-
-
-                        <div class="userstable">
-                            <table class="table">
-                                <thead>
-                                  <tr>
-                                        <th scope="col">#</th>
-                                        <th scope="col">Order Number</th>
-                                        <th scope="col">Email</th>
-                                        <th scope="col">Date</th>
-                                        <th scope="col">Action</th>
-                                  </tr>
-                                </thead>
-                
-                                <tbody>
-                                    <% orders.forEach(order => { %>
-                                  <tr>
-                                    <th scope="row"><%= users[i]._id %></th>
-                                    <td><%= order._id %> <% if(order.date) { %> <%= order.date %> <%
-                                    } %></td>
-                                    <td><%= order.user.userId %></td>
-                                    <td><%= users[i].date %></td>
-                                    <td> <form>
-                                      <button class="btn danger" type="submit"> Delete </button>
-                                  </form></td>
-                                  </tr>
-                                <% } %>
-                                </tbody>
-                              </table>
-                          </div>
-
-
-
-                          <% } else { %>
-                            <h1>No Orders Found!</h1>
-                            <% } %>
-
+                        <h1>No Orders Found!</h1>
+                        <% } %>
             </main>
             <%- include('../includes/end.ejs') %>

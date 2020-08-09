@@ -1,134 +1,109 @@
 <div class="backdrop"></div>
 <div class="main-header__top">
-	<div class="logo">
-		<a href="/"
-			><img class="logoimg" src="/img/happyknotslogo2.png" alt="logo1"
-		/></a>
-	</div>
-	<div class="top-right">
+    <div class="logo">
+        <a href="/" ><img class="logoimg" src="/img/happyknotslogo2.png" alt="logo1"></a>
+    </div>
+    <div class="top-right">
 		<ul class="user-menu">
 			<% if (!isAuthenticated) { %>
 			<li>
-			
-				<a class="<%= path === '/login' ? 'active' : '' %>" href="/login"
-					><i class="fas fa-user"></i> Login</a
-				>
+                <a class="<%= path === '/login' ? 'active' : '' %>" href="/login">
+                    <i class="fas fa-user"></i> Login</a>
 			</li>
 			<% } else { %>
 			<li>	
-				<%= locals.name %>
-				<a href="/userdash"><i class="fas fa-user"></i></a>
+				
+				<a href="/userdash"><%= locals.name %>  <i class="fas fa-user"></i></a>
 			</li>
 			<li>
-				<a class="<%= path === '/cart' ? 'active' : '' %>" href="/cart"
-					><i class="fas fa-shopping-cart"></i
-					><span class="badge badge-light"
-						><% if(locals.items){%><%=locals.items%><%}else {%>0<%}%></span
-					></a
-				>
+                <a class="<%= path === '/cart' ? 'active' : '' %>" href="/cart">
+                    <i class="fas fa-shopping-cart"></i> 
+                    <span class="badge badge-light">
+                        <% if(locals.items){%><%=locals.items%><%}else {%>0<%}%>
+                    </span></a>
 			</li>
 			<% } %>
-			<li>
-				Total: € <% if(locals.total) { %><%= locals.total.toFixed(2) %><%}else{%>0.00<%}%>
+			<li> 
+			<a>	Total: € <% if(locals.total) { %><%= locals.total.toFixed(2) %><%}else{%>0.00<%}%></a>
 			</li>
 		</ul>
 		<ul class="admin-menu">
 			<% if(locals.role && locals.role === 'admin') {%> <!--check if admin or not no undefined  then value-->
-			<li><a class="adminicon" href="/admin/admindash">Admin</a></li>
+			<li><a href="/admin/admindash">Admin</a></li>
 			<% } %>
 		</ul>
 	</div>
+
 </div>
 <header class="main-header">
-	<button id="side-menu-toggle">
-		<i class="fas fa-bars" style="font-size: 36px;"></i>
-	</button>
-	<nav class="main-header__nav">
-		<ul class="main-header__item-list">
-			<li class="main-header__item">
-				<a class="<%= path === '/' ? 'active' : '' %>" href="/">Home</a>
-			</li>
+    <button id="side-menu-toggle"><i class='fas fa-bars' style='font-size:36px'></i></button>
+    <nav class="main-header__nav">
+        <ul class="main-header__item-list">
 
-			<li class="main-header__item">
-				<a class="<%= path === '/about' ? 'active' : '' %>" href="/about"
-					>About</a
-				>
-			</li>
+            <li class="main-header__item">
+                <a class="<%= path === '/' ? 'active' : '' %>" href="/">Home</a>
+            </li>
 
-			<li class="main-header__item">
-				<a class="<%= path === '/products' ? 'active' : '' %>" href="/products"
-					>Products</a
-				>
-			</li>
-			<li class="main-header__item">
-				<a class="<%= path === '/tutorial' ? 'active' : '' %>" href="/tutorial"
-					>Tutorials</a
-				>
-			</li>
-			<li class="main-header__item">
-				<a class="<%= path === '/contact' ? 'active' : '' %>" href="/contact"
-					>Contact</a
-				>
-			</li>
-		</ul>
-	</nav>
+            <li class="main-header__item">
+                <a class="<%= path === '/about' ? 'active' : '' %>" href="/about">About</a>
+            </li>
+
+            <li class="main-header__item">
+                <a class="<%= path === '/products' ? 'active' : '' %>" href="/products">Products</a>
+            </li>
+            <li class="main-header__item">
+                <a class="<%= path === '/tutorial' ? 'active' : '' %>" href="/tutorial">Tutorials</a>
+            </li>
+            <li class="main-header__item">
+                <a class="<%= path === '/contact' ? 'active' : '' %>" href="/contact">Contact</a>
+            </li>
+        </ul>
+    </nav>
 </header>
 
 <nav class="mobile-nav">
-	<ul class="mobile-nav__item-list">
-		<li class="mobile-nav__item">
-			<a class="<%= path === '/' ? 'active' : '' %>" href="/">Home</a>
-		</li>
-		<li class="mobile-nav__item">
-			<a class="<%= path === '/about' ? 'active' : '' %>" href="/about"
-				>About</a
-			>
-		</li>
-		<li class="mobile-nav__item">
-			<a class="<%= path === '/products' ? 'active' : '' %>" href="/products"
-				>Products</a
-			>
-		</li>
-		<li class="mobile-nav__item">
-			<a class="<%= path === '/tutorial' ? 'active' : '' %>" href="/tutorial"
-				>Tutorials</a
-			>
-		</li>
-		<!--         <li class="mobile-nav__item">
+    <ul class="mobile-nav__item-list">
+        <li class="mobile-nav__item">
+            <a class="<%= path === '/' ? 'active' : '' %>" href="/">Home</a>
+        </li>
+        <li class="mobile-nav__item">
+            <a class="<%= path === '/about' ? 'active' : '' %>" href="/about">About</a>
+        </li>
+        <li class="mobile-nav__item">
+            <a class="<%= path === '/products' ? 'active' : '' %>" href="/products">Products</a>
+        </li>
+        <li class="mobile-nav__item">
+            <a class="<%= path === '/tutorial' ? 'active' : '' %>" href="/tutorial">Tutorials</a>
+        </li>
+<!--         <li class="mobile-nav__item">
             <a class="<%= path === '/cart' ? 'active' : '' %>" href="/cart">Cart</a>
         </li>
         <li class="mobile-nav__item">
             <a class="<%= path === '/orders' ? 'active' : '' %>" href="/orders">Orders</a>
         </li> -->
-		<li class="mobile-nav__item">
-			<a class="<%= path === '/contact' ? 'active' : '' %>" href="/contact"
-				>Contact</a
-			>
-		</li>
-		<% if (isAuthenticated) { %>
-		<li class="mobile-nav__item">
-			<a class="adminicon" href="/admin/admindash">Admin</a>
-		</li>
-		<!-- <li class="mobile-nav__item">
+        <li class="mobile-nav__item">
+            <a class="<%= path === '/contact' ? 'active' : '' %>" href="/contact">Contact</a>
+        </li>
+       <% if (isAuthenticated) { %>
+           <li class="mobile-nav__item"><a class="adminicon" href="/admin/admindash">Admin</a></li>
+ <!-- <li class="mobile-nav__item">
             <a class="<%= path === '/admin/add-product' ? 'active' : '' %>" href="/admin/add-product">Add Product</a>
         </li>
         <li class="mobile-nav__item">
             <a class="<%= path === '/admin/products' ? 'active' : '' %>" href="/admin/products">Admin Products</a>
         </li>-->
-		<% } %> <% if (!isAuthenticated) { %>
-		<li class="mobile-nav__item">
-			<a class="<%= path === '/login' ? 'active' : '' %>" href="/login"
-				>Login</a
-			>
-		</li>
-
-		<% } else { %>
-		<li class="mobile-nav__item">
-			<form action="/logout" method="post">
-				<input type="hidden" name="_csrf" value="<%= csrfToken %>" />
-				<button type="submit">Logout</button>
-			</form>
-		</li>
-		<% } %>
-	</ul>
+        <% } %> 
+        <% if (!isAuthenticated) { %>
+            <li class="mobile-nav__item">
+                <a class="<%= path === '/login' ? 'active' : '' %>" href="/login">Login</a>
+            </li>
+        <% } else { %>
+            <li class="mobile-nav__item">
+                <form action="/logout" method="post">
+                    <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+                    <button type="submit">Logout</button>
+                </form>
+            </li>
+        <% } %>
+    </ul>
 </nav>

@@ -3,7 +3,7 @@ const express = require('express');
 const { check, body } = require('express-validator/check');//check package
 
 const authController = require('../controllers/auth');
-//middleware to protect routes
+
 const User = require('../models/user');
 
 const router = express.Router();
@@ -29,7 +29,7 @@ router.post(
     authController.postLogin
   );
 
-router.post(
+  router.post(
     '/register',
     [
         check('email')
@@ -55,8 +55,14 @@ router.post(
             .isLength({ min: 4 })
             .isAlphanumeric()
             .trim(),
+        body('name', 'Enter a name, just alpha characters.')
+            .isAlpha()
+            .trim(),
+        body('lname', 'Enter a lastname, just alpha characters.')
+             .isAlpha()
+            .trim(),
         body('confirmPassword')
-            .trim()
+            .trim() // To delete leading and triling space 
             .custom((value, { req }) => {
             if (value !== req.body.password) {
                 throw new Error('Passwords have to match!');
@@ -66,7 +72,6 @@ router.post(
     ],
     authController.postRegister
 );
-
 router.get('/auth/user-edit', authController.getUserEdit);
 router.post('/auth/user-edit', authController.postUserEdit);
 

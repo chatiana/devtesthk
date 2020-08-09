@@ -9,12 +9,14 @@ const csrf = require ('csurf'); //CSRF
 const flash = require ('connect-flash');
 const multer  = require('multer');
 require ('dotenv').config();
+const compression = require('compression');
 
 const errorController = require('./controllers/error')
 const User = require('./models/user');
 
 //DB Connection
-const MONGODB_URI = 'mongodb+srv://user_1:niceday20@cluster0.mdz56.mongodb.net/shop';
+const MONGODB_URI =  `mongodb+srv://${process.env.MONGO_USER}:${process.env.MONGO_PASSWORD}@cluster0.mdz56.mongodb.net/${process.env.MONGO_DEFAULT_DATABASE}`;
+//'mongodb+srv://user_1:niceday20@cluster0.mdz56.mongodb.net/shop';
 
 
 const app = express();
@@ -53,6 +55,9 @@ const adminRoutes = require('./routes/admin');
 const shopRoutes = require('./routes/shop');
 const authRoutes = require('./routes/auth');
 
+//add compression as middleware
+app.use(compression());
+
 app.use(bodyParser.urlencoded({extended: false}));
 // multer config import
 app.use(multer({ storage: fileStorage, fileFilter: fileFilter  }).single('image'));
@@ -89,14 +94,14 @@ app.use((req, res, next) => { //to pass these data to all of the rendered views
 
 
 //find user with Id
-app.use((req, res, next) => {
+app.use((req, res, next) => {  
    // throw new Error('Dummy');
   if (!req.session.user) {
     return next();
   }
   User.findById(req.session.user._id) //findById provided by mangoose
     .then(user => {  //user is a mongoose model
-      if(!user) {  //check for existance of user
+      if(!user) {  //check for existance of user 
         return next(); //will rturn next w/o storing
       }
       req.user = user; //storing mongoose model from session into req.user enables all mongoose model method to work
@@ -111,7 +116,7 @@ app.use((req, res, next) => {
 
 
 //middleware
-app.use('/admin', adminRoutes);
+app.use('/admin', adminRoutes); 
 app.use(shopRoutes);
 app.use(authRoutes);
 
@@ -129,12 +134,14 @@ app.use((error, req, res, next) => {
     path: '/error500',
     isAuthenticated: req.session.isLoggedIn
   });
-});
+}); 
 
 mongoose
   .connect(MONGODB_URI, { useNewUrlParser: true,  useUnifiedTopology: true })
   .then(result => {
-    app.listen(4300);
-    console.log('http://localhost:4300');
+    app.listen(process.env.PORT || 3000);
+    console.log('http://localhost:3000');
   })
-  .catch( err =>  console.log ("error"));
+  .catch(err => {
+    console.log(err);
+  });
